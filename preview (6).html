@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>PromoConnect Customer</title>
+<style>
+:root{
+    --bg:#f6f3ee;
+    --surface:#ffffff;
+    --surface-2:#fff8ec;
+    --ink:#1f2937;
+    --muted:#687385;
+    --line:#eadfce;
+    --brand:#b83226;
+    --brand-2:#f2a900;
+    --brand-dark:#8f241c;
+    --green:#0f9f7a;
+    --blue:#2563eb;
+    --shadow:0 18px 45px rgba(73,43,24,.14);
+}
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 15% 8%, rgba(242,169,0,.22), transparent 30%),
+        radial-gradient(circle at 90% 18%, rgba(184,50,38,.13), transparent 28%),
+        var(--bg);
+    color:var(--ink);
+}
+
+button,
+input,
+textarea,
+select{
+    font:inherit;
+}
+
+button{
+    border:0;
+    cursor:pointer;
+}
+
+.app{
+    width:min(100%,480px);
+    min-height:100vh;
+    margin:auto;
+    background:var(--surface);
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:10;
+    background:rgba(255,255,255,.92);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--line);
+    padding:16px 18px 14px;
+}
+
+.top-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:900;
+}
+
+.brand-mark{
+    width:38px;
+    height:38px;
+    border-radius:14px;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2));
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-weight:900;
+    box-shadow:0 10px 22px rgba(184,50,38,.28);
+}
+
+.route{
+    margin-top:2px;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+}
+
+.icon-btn{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    background:var(--surface-2);
+    color:var(--brand);
+    border:1px solid var(--line);
+    position:relative;
+}
+
+.icon-btn svg{
+    width:20px;
+    height:20px;
+}
+
+.badge{
+    position:absolute;
+    top:7px;
+    right:7px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--green);
+    border:2px solid #fff;
+}
+
+.container{
+    padding:16px 18px 96px;
+}
+
+.screen{
+    display:none;
+    animation:fade .18s ease both;
+}
+
+.screen.active{
+    display:block;
+}
+
+@keyframes fade{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+.hero{
+    color:#fff;
+    border-radius:24px;
+    padding:20px;
+    min-height:180px;
+    background:
+        linear-gradient(115deg, rgba(40,26,15,.82), rgba(184,50,38,.72)),
+        url("https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80") center/cover;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    overflow:hidden;
+}
+
+.hero h1{
+    max-width:310px;
+    font-size:29px;
+    line-height:1.05;
+    letter-spacing:0;
+}
+
+.hero p{
+    max-width:300px;
+    margin-top:8px;
+    color:rgba(255,255,255,.86);
+    font-size:14px;
+    line-height:1.45;
+}
+
+.hero-actions{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:20px;
+}
+
+.points-pill{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    min-height:38px;
+    padding:0 13px;
+    border-radius:999px;
+    background:rgba(255,255,255,.18);
+    color:#fff;
+    font-weight:900;
+    border:1px solid rgba(255,255,255,.22);
+}
+
+.btn{
+    min-height:42px;
+    border-radius:999px;
+    padding:0 16px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    color:#fff;
+    background:var(--brand);
+    font-weight:900;
+    transition:.16s ease;
+}
+
+.btn:hover{
+    background:var(--brand-dark);
+}
+
+.btn:active,
+.nav-btn:active,
+.promo-card:active,
+.shop-card:active{
+    transform:scale(.98);
+}
+
+.btn.secondary{
+    color:var(--ink);
+    background:#fff;
+}
+
+.btn.soft{
+    color:var(--brand);
+    background:#fbe9df;
+}
+
+.btn.dark{
+    color:#fff;
+    background:var(--ink);
+}
+
+.btn.full{
+    width:100%;
+}
+
+.btn:disabled{
+    opacity:.48;
+    cursor:not-allowed;
+}
+
+.section-head{
+    margin:24px 0 12px;
+    display:flex;
+    align-items:end;
+    justify-content:space-between;
+    gap:12px;
+}
+
+.section-head h2{
+    font-size:18px;
+    letter-spacing:0;
+}
+
+.section-head span,
+.section-head button{
+    color:var(--muted);
+    background:transparent;
+    font-size:13px;
+    font-weight:800;
+}
+
+.search{
+    min-height:48px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 14px;
+    background:#fbf7f1;
+    border:1px solid var(--line);
+    border-radius:18px;
+}
+
+.search svg{
+    width:18px;
+    height:18px;
+    color:var(--muted);
+}
+
+.search input{
+    width:100%;
+    min-width:0;
+    border:0;
+    outline:0;
+    background:transparent;
+    color:var(--ink);
+}
+
+.filters{
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    padding:12px 0 2px;
+    scrollbar-width:none;
+}
+
+.filters::-webkit-scrollbar,
+.horizontal::-webkit-scrollbar{
+    display:none;
+}
+
+.chip{
+    flex:0 0 auto;
+    min-height:34px;
+    border-radius:999px;
+    padding:0 13px;
+    background:#fbf7f1;
+    color:var(--muted);
+    border:1px solid var(--line);
+    font-size:13px;
+    font-weight:900;
+}
+
+.chip.active{
+    background:var(--ink);
+    color:#fff;
+    border-color:var(--ink);
+}
+
+.horizontal{
+    display:grid;
+    grid-auto-flow:column;
+    grid-auto-columns:78%;
+    gap:12px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    padding:2px 0 4px;
+}
+
+.promo-card,
+.shop-card,
+.panel,
+.reward-card,
+.profile-card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.promo-card{
+    min-height:132px;
+    padding:16px;
+    color:#fff;
+    border:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    background:linear-gradient(135deg,var(--brand),#df7d24);
+    box-shadow:0 12px 24px rgba(184,50,38,.18);
+}
+
+.promo-card:nth-child(2){
+    background:linear-gradient(135deg,#a1261d,#f2a900);
+}
+
+.promo-card:nth-child(3){
+    background:linear-gradient(135deg,#165e54,#f2a900);
+}
+
+.promo-card h3{
+    font-size:19px;
+    line-height:1.15;
+}
+
+.promo-card p{
+    margin-top:6px;
+    font-size:13px;
+    color:rgba(255,255,255,.82);
+}
+
+.tag{
+    width:max-content;
+    min-height:25px;
+    border-radius:999px;
+    padding:0 9px;
+    display:inline-flex;
+    align-items:center;
+    background:#fff;
+    color:var(--brand);
+    font-size:11px;
+    font-weight:900;
+}
+
+.shop-list{
+    display:grid;
+    gap:12px;
+}
+
+.shop-card{
+    display:grid;
+    grid-template-columns:86px 1fr;
+    min-height:96px;
+    text-align:left;
+    color:inherit;
+    width:100%;
+}
+
+.shop-card img{
+    width:86px;
+    height:100%;
+    object-fit:cover;
+}
+
+.shop-body{
+    padding:12px;
+}
+
+.shop-body h3,
+.reward-card h3,
+.profile-card h3{
+    font-size:15px;
+    line-height:1.2;
+}
+
+.meta{
+    margin-top:5px;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.35;
+}
+
+.shop-foot{
+    margin-top:10px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+}
+
+.small-link{
+    color:var(--brand);
+    font-size:12px;
+    font-weight:900;
+}
+
+.detail{
+    display:none;
+    margin-top:12px;
+    padding:16px;
+    border-radius:12px;
+    background:var(--surface-2);
+    border:1px solid var(--line);
+}
+
+.detail.active{
+    display:block;
+}
+
+.detail h3{
+    font-size:18px;
+}
+
+.detail p{
+    margin-top:7px;
+    color:var(--muted);
+    font-size:13px;
+    line-height:1.45;
+}
+
+.points-card{
+    border-radius:24px;
+    padding:20px;
+    color:#fff;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2));
+    box-shadow:0 14px 28px rgba(184,50,38,.2);
+}
+
+.points-card p{
+    color:rgba(255,255,255,.84);
+    font-size:13px;
+}
+
+.points-value{
+    margin:8px 0;
+    font-size:58px;
+    line-height:.95;
+    font-weight:900;
+}
+
+.progress{
+    height:10px;
+    margin-top:10px;
+    border-radius:999px;
+    background:rgba(255,255,255,.28);
+    overflow:hidden;
+}
+
+.progress span{
+    display:block;
+    width:var(--value);
+    height:100%;
+    border-radius:inherit;
+    background:#fff;
+}
+
+.tabs{
+    margin:14px 0;
+    padding:5px;
+    border-radius:999px;
+    background:#fbf7f1;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
+}
+
+.tab{
+    min-height:36px;
+    border-radius:999px;
+    background:transparent;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:900;
+}
+
+.tab.active{
+    color:var(--ink);
+    background:#fff;
+    box-shadow:0 8px 16px rgba(73,43,24,.08);
+}
+
+.reward-list{
+    display:grid;
+    gap:10px;
+}
+
+.reward-card{
+    padding:14px;
+    display:grid;
+    grid-template-columns:48px 1fr auto;
+    align-items:center;
+    gap:12px;
+}
+
+.reward-icon,
+.list-icon{
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    display:grid;
+    place-items:center;
+    color:#fff;
+    background:var(--brand);
+    font-weight:900;
+}
+
+.reward-card:nth-child(2) .reward-icon{
+    background:var(--green);
+}
+
+.reward-card:nth-child(3) .reward-icon{
+    background:var(--blue);
+}
+
+.mini-btn{
+    min-height:34px;
+    border-radius:999px;
+    padding:0 12px;
+    background:var(--ink);
+    color:#fff;
+    font-size:12px;
+    font-weight:900;
+}
+
+.mini-btn:disabled{
+    opacity:.45;
+}
+
+.panel{
+    margin-top:12px;
+}
+
+.list-row{
+    width:100%;
+    min-height:72px;
+    padding:14px;
+    background:#fff;
+    color:inherit;
+    text-align:left;
+    display:grid;
+    grid-template-columns:46px 1fr auto;
+    align-items:center;
+    gap:12px;
+    border-bottom:1px solid var(--line);
+}
+
+.list-row:last-child{
+    border-bottom:0;
+}
+
+.list-icon{
+    width:46px;
+    height:46px;
+    border-radius:15px;
+}
+
+.list-row:nth-child(2) .list-icon{
+    background:var(--green);
+}
+
+.list-row:nth-child(3) .list-icon{
+    background:var(--brand-2);
+    color:#1f2937;
+}
+
+.chev{
+    color:var(--muted);
+    font-size:21px;
+}
+
+.form-panel{
+    display:none;
+    margin-top:12px;
+    padding:15px;
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:#fff;
+}
+
+.form-panel.active{
+    display:block;
+}
+
+.field{
+    margin-bottom:12px;
+}
+
+.field label{
+    display:block;
+    margin-bottom:6px;
+    color:var(--muted);
+    font-size:12px;
+    font-weight:900;
+}
+
+.field input,
+.field textarea,
+.field select{
+    width:100%;
+    border:1px solid var(--line);
+    border-radius:15px;
+    background:#fbf7f1;
+    padding:12px;
+    outline:0;
+}
+
+.field textarea{
+    min-height:88px;
+    resize:none;
+    line-height:1.45;
+}
+
+.chat{
+    min-height:220px;
+    max-height:260px;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+    padding-right:2px;
+}
+
+.bubble{
+    width:fit-content;
+    max-width:82%;
+    border-radius:18px;
+    padding:10px 12px;
+    background:#fbf7f1;
+    color:var(--ink);
+    font-size:13px;
+    line-height:1.4;
+}
+
+.bubble.me{
+    margin-left:auto;
+    color:#fff;
+    background:var(--brand);
+}
+
+.compose{
+    display:grid;
+    grid-template-columns:1fr 44px;
+    gap:8px;
+    margin-top:12px;
+}
+
+.profile-card{
+    padding:16px;
+}
+
+.profile-top{
+    text-align:center;
+}
+
+.avatar{
+    width:88px;
+    height:88px;
+    margin:0 auto 14px;
+    border-radius:50%;
+    background:linear-gradient(135deg,var(--brand),var(--brand-2));
+    color:#fff;
+    display:grid;
+    place-items:center;
+    font-size:34px;
+    font-weight:900;
+    box-shadow:0 12px 24px rgba(184,50,38,.18);
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.stat{
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:14px;
+    background:#fff;
+}
+
+.stat strong{
+    display:block;
+    font-size:24px;
+}
+
+.setting{
+    min-height:60px;
+    padding:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    border-bottom:1px solid var(--line);
+}
+
+.setting:last-child{
+    border-bottom:0;
+}
+
+.switch{
+    position:relative;
+    width:48px;
+    height:28px;
+    flex:0 0 auto;
+}
+
+.switch input{
+    opacity:0;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+    border-radius:999px;
+    background:#d9d0c2;
+    transition:.16s ease;
+}
+
+.slider:before{
+    content:"";
+    position:absolute;
+    width:22px;
+    height:22px;
+    top:3px;
+    left:3px;
+    border-radius:50%;
+    background:#fff;
+    box-shadow:0 4px 10px rgba(31,41,55,.2);
+    transition:.16s ease;
+}
+
+.switch input:checked + .slider{
+    background:var(--green);
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(20px);
+}
+
+.nav{
+    position:fixed;
+    left:50%;
+    bottom:14px;
+    transform:translateX(-50%);
+    width:min(calc(100% - 28px),452px);
+    min-height:76px;
+    border-radius:28px;
+    background:rgba(255,255,255,.94);
+    border:1px solid var(--line);
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:4px;
+    padding:8px;
+    box-shadow:0 12px 30px rgba(73,43,24,.16);
+    backdrop-filter:blur(18px);
+}
+
+.nav-btn{
+    border-radius:22px;
+    background:transparent;
+    color:var(--muted);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:4px;
+    font-size:11px;
+    font-weight:900;
+}
+
+.nav-btn svg{
+    width:21px;
+    height:21px;
+}
+
+.nav-btn.active{
+    color:var(--brand);
+    background:#fbe9df;
+}
+
+.toast{
+    position:fixed;
+    left:50%;
+    bottom:102px;
+    transform:translate(-50%,12px);
+    width:min(calc(100% - 44px),420px);
+    min-height:46px;
+    padding:11px 14px;
+    border-radius:18px;
+    background:rgba(31,41,55,.96);
+    color:#fff;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    font-size:13px;
+    font-weight:900;
+    opacity:0;
+    pointer-events:none;
+    transition:.18s ease;
+    z-index:30;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+.empty{
+    padding:18px;
+    border:1px dashed var(--line);
+    border-radius:12px;
+    color:var(--muted);
+    text-align:center;
+    background:#fbf7f1;
+    font-size:13px;
+}
+
+@media (min-width:700px){
+    body{
+        padding:28px;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .app{
+        min-height:860px;
+        border-radius:34px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="app">
+    <header class="topbar">
+        <div class="top-row">
+            <div class="brand">
+                <div class="brand-mark">P</div>
+                <div>
+                    <div>PromoConnect</div>
+                    <div class="route" id="routeLabel">Home</div>
+                </div>
+            </div>
+            <button class="icon-btn" type="button" id="notifyBtn" aria-label="Notifications">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M6 9a6 6 0 1 1 12 0v5l2 3H4l2-3V9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M10 20a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="badge"></span>
+            </button>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="screen active" id="home">
+            <article class="hero">
+                <div>
+                    <h1>Fresh local deals near you.</h1>
+                    <p>Discover recommended promos, save offers, and earn points from small businesses.</p>
+                </div>
+                <div class="hero-actions">
+                    <span class="points-pill"><span id="heroPoints">120</span> pts</span>
+                    <button class="btn secondary" type="button" data-route="rewards">View Rewards</button>
+                </div>
+            </article>
+
+            <div class="section-head">
+                <h2>Recommended for you</h2>
+                <span id="promoCount">0 deals</span>
+            </div>
+
+            <label class="search" aria-label="Search promotions">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input id="searchInput" type="search" placeholder="Search promotions, shops, deals" />
+            </label>
+
+            <div class="filters" id="filters"></div>
+            <div class="horizontal" id="recommendedList"></div>
+
+            <div class="detail" id="promoDetail">
+                <h3 id="detailTitle">Promo detail</h3>
+                <p id="detailMeta"></p>
+                <p id="detailText"></p>
+                <button class="btn full" type="button" id="claimDetail">Claim Promo</button>
+            </div>
+
+            <div class="section-head">
+                <h2>Nearby Promotion</h2>
+                <button type="button" id="sortNearby">Nearest first</button>
+            </div>
+            <div class="shop-list" id="nearbyList"></div>
+
+            <div class="section-head">
+                <h2>Small business shops</h2>
+                <span id="shopCount">0 shops</span>
+            </div>
+            <div class="shop-list" id="shopList"></div>
+        </section>
+
+        <section class="screen" id="rewards">
+            <article class="points-card">
+                <p>Total Points:</p>
+                <div class="points-value" id="pointsValue">120</div>
+                <p id="tierText">Tier: Bronze Member</p>
+                <div class="section-head" style="margin:16px 0 0;color:#fff">
+                    <span style="color:#fff">Progress to Silver</span>
+                    <span id="progressText" style="color:#fff">40%</span>
+                </div>
+                <div class="progress"><span id="tierBar" style="--value:40%"></span></div>
+            </article>
+
+            <div class="tabs">
+                <button class="tab active" type="button" data-reward-tab="food">Food</button>
+                <button class="tab" type="button" data-reward-tab="drinks">Drinks</button>
+                <button class="tab" type="button" data-reward-tab="special">Special</button>
+            </div>
+
+            <div class="section-head">
+                <h2 id="rewardTitle">Food Rewards</h2>
+                <button type="button" id="earnPoints">Earn +15</button>
+            </div>
+            <div class="reward-list" id="rewardList"></div>
+
+            <div class="section-head">
+                <h2>Activity Summary</h2>
+                <span id="activityCount">0 items</span>
+            </div>
+            <div class="panel" id="activityList"></div>
+        </section>
+
+        <section class="screen" id="inbox">
+            <label class="search" aria-label="Search inbox">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                    <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input id="inboxSearch" type="search" placeholder="Search customization, feedback, chat" />
+            </label>
+
+            <div class="panel" id="inboxMenu">
+                <button class="list-row" type="button" data-panel="customize">
+                    <span class="list-icon">C</span>
+                    <span>
+                        <strong>Product Customization</strong>
+                        <span class="meta">Size, flavor, sugar, add-ons</span>
+                    </span>
+                    <span class="chev">&gt;</span>
+                </button>
+                <button class="list-row" type="button" data-panel="feedback">
+                    <span class="list-icon">F</span>
+                    <span>
+                        <strong>Business Feedback</strong>
+                        <span class="meta">Rate service and promo quality</span>
+                    </span>
+                    <span class="chev">&gt;</span>
+                </button>
+                <button class="list-row" type="button" data-panel="chatbox">
+                    <span class="list-icon">M</span>
+                    <span>
+                        <strong>Chat Box</strong>
+                        <span class="meta">Message the selected business</span>
+                    </span>
+                    <span class="chev">&gt;</span>
+                </button>
+            </div>
+
+            <form class="form-panel active" id="customizePanel">
+                <div class="field">
+                    <label for="orderShop">Shop</label>
+                    <select id="orderShop">
+                        <option>Maria's Milk Tea Shop</option>
+                        <option>Local Bakery</option>
+                        <option>Family Restaurant</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="orderSize">Size</label>
+                    <select id="orderSize">
+                        <option>Medium</option>
+                        <option>Small</option>
+                        <option>Large</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="sugarLevel">Sugar level</label>
+                    <select id="sugarLevel">
+                        <option>50%</option>
+                        <option>0%</option>
+                        <option>25%</option>
+                        <option>75%</option>
+                        <option>100%</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="addons">Add-ons</label>
+                    <input id="addons" placeholder="Pearls, jelly, cream cheese" />
+                </div>
+                <button class="btn full" type="submit">Save Custom Order</button>
+            </form>
+
+            <form class="form-panel" id="feedbackPanel">
+                <div class="field">
+                    <label for="rating">Rating</label>
+                    <select id="rating">
+                        <option>5 - Excellent</option>
+                        <option>4 - Good</option>
+                        <option>3 - Okay</option>
+                        <option>2 - Needs work</option>
+                        <option>1 - Poor</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="feedbackText">Feedback</label>
+                    <textarea id="feedbackText" placeholder="Write your feedback about the shop or promo quality"></textarea>
+                </div>
+                <button class="btn full" type="submit">Submit Feedback</button>
+            </form>
+
+            <div class="form-panel" id="chatboxPanel">
+                <div class="chat" id="chatMessages"></div>
+                <form class="compose" id="chatForm">
+                    <input id="chatInput" placeholder="Type a message" />
+                    <button class="btn" type="submit" aria-label="Send">Send</button>
+                </form>
+            </div>
+        </section>
+
+        <section class="screen" id="profile">
+            <article class="profile-card profile-top">
+                <div class="avatar">J</div>
+                <h2>Juan Dela Cruz</h2>
+                <p class="meta">juan@email.com</p>
+                <p class="meta" id="profileTier">Bronze Member</p>
+            </article>
+
+            <div class="section-head">
+                <h2>Loyalty Progress</h2>
+                <button type="button" data-route="rewards">Rewards</button>
+            </div>
+            <article class="points-card">
+                <p>Current progress</p>
+                <div class="points-value" id="profileProgressValue">40%</div>
+                <p id="profileProgressText">180 points to Silver</p>
+                <div class="progress"><span id="profileBar" style="--value:40%"></span></div>
+            </article>
+
+            <div class="section-head">
+                <h2>Activity Summary</h2>
+                <button type="button" id="resetApp">Reset</button>
+            </div>
+            <div class="stats">
+                <div class="stat"><strong id="statPoints">120</strong><span class="meta">Points</span></div>
+                <div class="stat"><strong id="statPromos">0</strong><span class="meta">Promos</span></div>
+                <div class="stat"><strong id="statMessages">0</strong><span class="meta">Messages</span></div>
+                <div class="stat"><strong id="statReviews">0</strong><span class="meta">Reviews</span></div>
+            </div>
+
+            <div class="section-head">
+                <h2>Settings</h2>
+                <span>Account</span>
+            </div>
+            <div class="panel">
+                <label class="setting">
+                    <span>
+                        <strong>Notifications</strong>
+                        <span class="meta">Promo and reward alerts</span>
+                    </span>
+                    <span class="switch">
+                        <input id="settingNotifications" type="checkbox" checked />
+                        <span class="slider"></span>
+                    </span>
+                </label>
+                <label class="setting">
+                    <span>
+                        <strong>Privacy</strong>
+                        <span class="meta">Hide profile from public shop boards</span>
+                    </span>
+                    <span class="switch">
+                        <input id="settingPrivacy" type="checkbox" />
+                        <span class="slider"></span>
+                    </span>
+                </label>
+                <button class="list-row" type="button" id="editProfile">
+                    <span class="list-icon">E</span>
+                    <span>
+                        <strong>Edit Profile</strong>
+                        <span class="meta">Update name, email, and preferences</span>
+                    </span>
+                    <span class="chev">&gt;</span>
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <nav class="nav" aria-label="Main navigation">
+        <button class="nav-btn active" type="button" data-route="home">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8.5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            Home
+        </button>
+        <button class="nav-btn" type="button" data-route="rewards">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 11h10v10H7V11Z" stroke="currentColor" stroke-width="2"/><path d="M5 7h14v4H5V7ZM12 7v14M8.5 7A2.5 2.5 0 1 1 12 7a2.5 2.5 0 1 1 3.5 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Rewards
+        </button>
+        <button class="nav-btn" type="button" data-route="inbox">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16v11H8l-4 4V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Inbox
+        </button>
+        <button class="nav-btn" type="button" data-route="profile">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4.5 21a7.5 7.5 0 0 1 15 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Profile
+        </button>
+    </nav>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+const promotions=[
+    {title:"20% Off Milk Tea",tag:"Hot",shop:"Maria's Milk Tea Shop",category:"Drinks",distance:.3,points:12,detail:"Save on any classic milk tea flavor today."},
+    {title:"Buy 1 Get 1 Pizza",tag:"New",shop:"Pizza Corner",category:"Food",distance:1.2,points:18,detail:"Buy one slice set and get one free for a friend."},
+    {title:"Free Coffee Upgrade",tag:"Trending",shop:"Coffee Shop",category:"Drinks",distance:.5,points:10,detail:"Upgrade any regular coffee to large for free."},
+    {title:"Weekend Dessert Sale",tag:"Limited",shop:"Local Bakery",category:"Bakery",distance:.9,points:14,detail:"Fresh breads, cakes, and pastries with weekend-only discounts."}
+];
+
+const shops=[
+    {name:"Maria's Milk Tea Shop",type:"Drinks",rating:4.8,distance:.3,status:"Trending",img:"https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=400&q=80"},
+    {name:"Coffee Shop Discount",type:"Drinks",rating:4.7,distance:.5,status:"Open now",img:"https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=400&q=80"},
+    {name:"Burger House Promo",type:"Food",rating:4.5,distance:.8,status:"Open now",img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=400&q=80"},
+    {name:"Local Noodle House",type:"Food",rating:4.6,distance:1.5,status:"Budget friendly",img:"https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=400&q=80"},
+    {name:"Family Restaurant",type:"Meals",rating:4.4,distance:1.8,status:"Family meals",img:"https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=400&q=80"}
+];
+
+const smallBusinesses=[
+    {name:"Maria's Milk Tea Shop Special",type:"Drinks",rating:4.8,distance:.3,status:"Loyalty partner",img:"https://images.unsplash.com/photo-1525385133512-2f3bdd039054?auto=format&fit=crop&w=400&q=80"},
+    {name:"Local Bakery Fresh Bread Promo",type:"Bakery",rating:4.6,distance:.9,status:"Fresh today",img:"https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=400&q=80"},
+    {name:"Street Food Stall Discount Deals",type:"Food",rating:4.5,distance:1.1,status:"Budget meals",img:"https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80"},
+    {name:"Family Restaurant Budget Meals",type:"Meals",rating:4.4,distance:1.8,status:"Open now",img:"https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=400&q=80"}
+];
+
+const rewards={
+    food:[
+        {name:"Free Burger Meal",cost:250,desc:"Burger, fries, and drink",code:"B"},
+        {name:"Free Pizza Slice",cost:180,desc:"Any regular pizza slice",code:"P"},
+        {name:"Free Noodle Bowl",cost:200,desc:"House noodle bowl",code:"N"}
+    ],
+    drinks:[
+        {name:"Milk Tea Upgrade",cost:120,desc:"Upgrade to large",code:"M"},
+        {name:"Coffee Upgrade",cost:80,desc:"Regular to large coffee",code:"C"},
+        {name:"Snack Combo",cost:140,desc:"Drink plus snack",code:"S"}
+    ],
+    special:[
+        {name:"20% Discount Voucher",cost:200,desc:"Use at partner shops",code:"V"},
+        {name:"Mystery Box Reward",cost:300,desc:"Sponsored surprise reward",code:"X"},
+        {name:"Double Points Pass",cost:220,desc:"Double points on next visit",code:"D"}
+    ]
+};
+
+const baseState={
+    points:120,
+    claimed:0,
+    messages:12,
+    reviews:3,
+    activeFilter:"All",
+    selectedPromo:0,
+    rewardTab:"food",
+    nearestFirst:true,
+    activity:["Joined as Bronze Member with 120 points"],
+    chat:[
+        {from:"shop",text:"Hi Juan, how can we help you today?"},
+        {from:"me",text:"Do you still have the milk tea promo?"}
+    ],
+    settings:{notifications:true,privacy:false}
+};
+
+let state=loadState();
+let toastTimer;
+
+function loadState(){
+    const saved=localStorage.getItem("promoConnectCustomerState");
+    if(!saved) return structuredClone(baseState);
+    try{
+        return {...structuredClone(baseState),...JSON.parse(saved)};
+    }catch{
+        return structuredClone(baseState);
+    }
+}
+
+function saveState(){
+    localStorage.setItem("promoConnectCustomerState",JSON.stringify(state));
+}
+
+function showToast(message){
+    const toast=document.getElementById("toast");
+    toast.textContent=message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer=setTimeout(()=>toast.classList.remove("show"),2200);
+}
+
+function addActivity(message){
+    state.activity.unshift(message);
+    state.activity=state.activity.slice(0,12);
+    saveState();
+    renderActivity();
+    renderProfile();
+}
+
+function tierInfo(){
+    const next=300;
+    const progress=Math.min(100,Math.round((state.points/next)*100));
+    return {
+        name:state.points>=300?"Silver Member":"Bronze Member",
+        progress,
+        remaining:Math.max(next-state.points,0)
+    };
+}
+
+function setRoute(route){
+    document.querySelectorAll(".screen").forEach(screen=>{
+        screen.classList.toggle("active",screen.id===route);
+    });
+    document.querySelectorAll(".nav-btn").forEach(btn=>{
+        btn.classList.toggle("active",btn.dataset.route===route);
+    });
+    document.getElementById("routeLabel").textContent={
+        home:"Home",
+        rewards:"My Reward",
+        inbox:"Inbox",
+        profile:"Profile"
+    }[route];
+}
+
+function renderFilters(){
+    const filters=["All","Food","Drinks","Bakery","Meals"];
+    document.getElementById("filters").innerHTML=filters.map(filter=>`
+        <button class="chip ${state.activeFilter===filter?"active":""}" type="button" data-filter="${filter}">${filter}</button>
+    `).join("");
+    document.querySelectorAll("[data-filter]").forEach(button=>{
+        button.addEventListener("click",()=>{
+            state.activeFilter=button.dataset.filter;
+            saveState();
+            renderHome();
+        });
+    });
+}
+
+function matchesSearch(item,query){
+    return Object.values(item).join(" ").toLowerCase().includes(query);
+}
+
+function renderHome(){
+    const query=document.getElementById("searchInput").value.trim().toLowerCase();
+    const filteredPromos=promotions.filter(p=>{
+        const filterMatch=state.activeFilter==="All"||p.category===state.activeFilter;
+        return filterMatch&&matchesSearch(p,query);
+    });
+
+    document.getElementById("promoCount").textContent=`${filteredPromos.length} deals`;
+    document.getElementById("recommendedList").innerHTML=filteredPromos.map((promo,index)=>`
+        <button class="promo-card" type="button" data-promo-index="${promotions.indexOf(promo)}">
+            <span class="tag">${promo.tag}</span>
+            <span>
+                <h3>${promo.title}</h3>
+                <p>${promo.shop} - ${promo.points} bonus pts</p>
+            </span>
+        </button>
+    `).join("")||`<div class="empty">No recommended promotions found.</div>`;
+
+    document.querySelectorAll("[data-promo-index]").forEach(card=>{
+        card.addEventListener("click",()=>{
+            state.selectedPromo=Number(card.dataset.promoIndex);
+            saveState();
+            renderPromoDetail();
+        });
+    });
+
+    const nearby=[...shops].sort((a,b)=>state.nearestFirst?a.distance-b.distance:b.rating-a.rating);
+    document.getElementById("nearbyList").innerHTML=nearby.map(shop=>shopCard(shop,true)).join("");
+    document.getElementById("shopCount").textContent=`${smallBusinesses.length} shops`;
+    document.getElementById("shopList").innerHTML=smallBusinesses.map(shop=>shopCard(shop,false)).join("");
+
+    document.querySelectorAll("[data-save-shop]").forEach(button=>{
+        button.addEventListener("click",event=>{
+            event.stopPropagation();
+            state.claimed+=1;
+            addActivity(`Saved offer from ${button.dataset.saveShop}`);
+            showToast("Offer saved");
+        });
+    });
+
+    renderFilters();
+    renderPromoDetail();
+}
+
+function shopCard(shop,nearby){
+    return `
+        <button class="shop-card" type="button">
+            <img src="${shop.img}" alt="${shop.name}" />
+            <span class="shop-body">
+                <h3>${shop.name}</h3>
+                <span class="meta">${shop.type} - ${shop.rating} rating - ${shop.distance} km away</span>
+                <span class="shop-foot">
+                    <span class="tag">${shop.status}</span>
+                    <span class="small-link" data-save-shop="${shop.name}">${nearby?"Claim":"Save"}</span>
+                </span>
+            </span>
+        </button>
+    `;
+}
+
+function renderPromoDetail(){
+    const promo=promotions[state.selectedPromo];
+    const detail=document.getElementById("promoDetail");
+    detail.classList.add("active");
+    document.getElementById("detailTitle").textContent=promo.title;
+    document.getElementById("detailMeta").textContent=`${promo.shop} - ${promo.distance} km away - valid this week`;
+    document.getElementById("detailText").textContent=promo.detail;
+}
+
+function renderRewards(){
+    const info=tierInfo();
+    document.getElementById("heroPoints").textContent=state.points;
+    document.getElementById("pointsValue").textContent=state.points;
+    document.getElementById("tierText").textContent=`Tier: ${info.name}`;
+    document.getElementById("progressText").textContent=`${info.progress}%`;
+    document.getElementById("tierBar").style.setProperty("--value",`${info.progress}%`);
+
+    document.querySelectorAll("[data-reward-tab]").forEach(tab=>{
+        tab.classList.toggle("active",tab.dataset.rewardTab===state.rewardTab);
+    });
+
+    const title={food:"Food Rewards",drinks:"Drinks & Snacks",special:"Special Rewards"}[state.rewardTab];
+    document.getElementById("rewardTitle").textContent=title;
+    document.getElementById("rewardList").innerHTML=rewards[state.rewardTab].map(reward=>{
+        const canRedeem=state.points>=reward.cost;
+        return `
+            <article class="reward-card">
+                <span class="reward-icon">${reward.code}</span>
+                <span>
+                    <h3>${reward.name}</h3>
+                    <span class="meta">${reward.desc} - ${reward.cost} pts</span>
+                </span>
+                <button class="mini-btn" type="button" data-redeem="${reward.name}" data-cost="${reward.cost}" ${canRedeem?"":"disabled"}>${canRedeem?"Redeem":"Locked"}</button>
+            </article>
+        `;
+    }).join("");
+
+    document.querySelectorAll("[data-redeem]").forEach(button=>{
+        button.addEventListener("click",()=>{
+            const cost=Number(button.dataset.cost);
+            if(state.points<cost) return;
+            state.points-=cost;
+            state.claimed+=1;
+            addActivity(`Redeemed ${button.dataset.redeem} for ${cost} points`);
+            renderAll();
+            showToast(`${button.dataset.redeem} redeemed`);
+        });
+    });
+}
+
+function renderActivity(){
+    const list=document.getElementById("activityList");
+    document.getElementById("activityCount").textContent=`${state.activity.length} items`;
+    list.innerHTML=state.activity.map(item=>`
+        <div class="list-row">
+            <span class="list-icon">A</span>
+            <span>
+                <strong>${item}</strong>
+                <span class="meta">Updated just now</span>
+            </span>
+            <span class="chev">.</span>
+        </div>
+    `).join("");
+}
+
+function renderInbox(){
+    const messages=document.getElementById("chatMessages");
+    messages.innerHTML=state.chat.map(msg=>`
+        <div class="bubble ${msg.from==="me"?"me":""}">${msg.text}</div>
+    `).join("");
+    messages.scrollTop=messages.scrollHeight;
+}
+
+function setInboxPanel(panel){
+    ["customize","feedback","chatbox"].forEach(name=>{
+        document.getElementById(`${name}Panel`).classList.toggle("active",name===panel);
+    });
+    if(panel==="chatbox") renderInbox();
+}
+
+function renderProfile(){
+    const info=tierInfo();
+    document.getElementById("profileTier").textContent=`${info.name} - ${state.points} points`;
+    document.getElementById("profileProgressValue").textContent=`${info.progress}%`;
+    document.getElementById("profileProgressText").textContent=info.remaining?`${info.remaining} points to Silver`:"Silver unlocked";
+    document.getElementById("profileBar").style.setProperty("--value",`${info.progress}%`);
+    document.getElementById("statPoints").textContent=state.points;
+    document.getElementById("statPromos").textContent=state.claimed;
+    document.getElementById("statMessages").textContent=state.messages;
+    document.getElementById("statReviews").textContent=state.reviews;
+    document.getElementById("settingNotifications").checked=state.settings.notifications;
+    document.getElementById("settingPrivacy").checked=state.settings.privacy;
+}
+
+function renderAll(){
+    renderHome();
+    renderRewards();
+    renderActivity();
+    renderInbox();
+    renderProfile();
+}
+
+document.querySelectorAll("[data-route]").forEach(button=>{
+    button.addEventListener("click",()=>setRoute(button.dataset.route));
+});
+
+document.getElementById("searchInput").addEventListener("input",renderHome);
+
+document.getElementById("sortNearby").addEventListener("click",()=>{
+    state.nearestFirst=!state.nearestFirst;
+    document.getElementById("sortNearby").textContent=state.nearestFirst?"Nearest first":"Top rated";
+    saveState();
+    renderHome();
+});
+
+document.getElementById("claimDetail").addEventListener("click",()=>{
+    const promo=promotions[state.selectedPromo];
+    state.points+=promo.points;
+    state.claimed+=1;
+    addActivity(`Claimed ${promo.title} and earned ${promo.points} points`);
+    renderAll();
+    showToast(`Promo claimed: +${promo.points} points`);
+});
+
+document.querySelectorAll("[data-reward-tab]").forEach(tab=>{
+    tab.addEventListener("click",()=>{
+        state.rewardTab=tab.dataset.rewardTab;
+        saveState();
+        renderRewards();
+    });
+});
+
+document.getElementById("earnPoints").addEventListener("click",()=>{
+    state.points+=15;
+    addActivity("Earned 15 points from a customer check-in");
+    renderAll();
+    showToast("+15 points earned");
+});
+
+document.querySelectorAll("[data-panel]").forEach(button=>{
+    button.addEventListener("click",()=>setInboxPanel(button.dataset.panel));
+});
+
+document.getElementById("inboxSearch").addEventListener("input",event=>{
+    const query=event.target.value.trim().toLowerCase();
+    document.querySelectorAll("#inboxMenu .list-row").forEach(row=>{
+        row.style.display=row.textContent.toLowerCase().includes(query)?"grid":"none";
+    });
+});
+
+document.getElementById("customizePanel").addEventListener("submit",event=>{
+    event.preventDefault();
+    const shop=document.getElementById("orderShop").value;
+    const size=document.getElementById("orderSize").value;
+    const sugar=document.getElementById("sugarLevel").value;
+    state.messages+=1;
+    state.chat.push({from:"me",text:`Custom order for ${shop}: ${size}, ${sugar} sugar.`});
+    addActivity("Saved Product Customization order");
+    renderInbox();
+    showToast("Custom order saved");
+});
+
+document.getElementById("feedbackPanel").addEventListener("submit",event=>{
+    event.preventDefault();
+    const text=document.getElementById("feedbackText").value.trim();
+    if(!text){
+        showToast("Write feedback before submitting");
+        return;
+    }
+    state.reviews+=1;
+    document.getElementById("feedbackText").value="";
+    addActivity("Submitted Business Feedback");
+    showToast("Feedback submitted");
+});
+
+document.getElementById("chatForm").addEventListener("submit",event=>{
+    event.preventDefault();
+    const input=document.getElementById("chatInput");
+    const text=input.value.trim();
+    if(!text) return;
+    state.messages+=1;
+    state.chat.push({from:"me",text});
+    state.chat.push({from:"shop",text:"Thanks. The shop will reply with availability shortly."});
+    input.value="";
+    addActivity("Sent a Chat Box message");
+    renderInbox();
+    showToast("Message sent");
+});
+
+document.getElementById("settingNotifications").addEventListener("change",event=>{
+    state.settings.notifications=event.target.checked;
+    saveState();
+    showToast(`Notifications ${event.target.checked?"on":"off"}`);
+});
+
+document.getElementById("settingPrivacy").addEventListener("change",event=>{
+    state.settings.privacy=event.target.checked;
+    saveState();
+    showToast(`Privacy mode ${event.target.checked?"on":"off"}`);
+});
+
+document.getElementById("notifyBtn").addEventListener("click",()=>{
+    showToast("You have new nearby promotions.");
+});
+
+document.getElementById("editProfile").addEventListener("click",()=>{
+    showToast("Profile editing screen placeholder opened.");
+});
+
+document.getElementById("resetApp").addEventListener("click",()=>{
+    state=structuredClone(baseState);
+    saveState();
+    renderAll();
+    setRoute("home");
+    showToast("App data reset");
+});
+
+renderAll();
+</script>
+</body>
+</html>
